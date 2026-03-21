@@ -1,0 +1,4 @@
+RewriteEngine On
+
+RewriteCond %{REQUEST_URI} !^/touche_pas_au_klaxon/public/
+RewriteRule ^(.*)$ /touche_pas_au_klaxon/public/ [L,R=302]
