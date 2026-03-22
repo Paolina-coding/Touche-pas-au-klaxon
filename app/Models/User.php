@@ -103,5 +103,5 @@ class User {
             throw new \InvalidArgumentException("Role invalide, veuillez choisir admin ou user");
         }
         $this->role = $role;
-    }    
+    }
 }
