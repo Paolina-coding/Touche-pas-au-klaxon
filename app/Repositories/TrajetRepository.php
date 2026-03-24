@@ -84,12 +84,12 @@ class TrajetRepository
 
         $stmt->execute([
             'createur' => $trajet->getIdCreateur(),
-            'depart'      => $trajet->getIdAgenceDepart(),
-            'arrivee'      => $trajet->getIdAgenceArrivee(),
-            'dhd'       => $trajet->getDateHeureDepart()->format('Y-m-d H:i:s'),
-            'dha'       => $trajet->getDateHeureArrivee()->format('Y-m-d H:i:s'),
-            'pt'       => $trajet->getPlacesTotales(),
-            'pd'       => $trajet->getPlacesDisponibles(),
+            'depart' => $trajet->getIdAgenceDepart(),
+            'arrivee' => $trajet->getIdAgenceArrivee(),
+            'dhd' => $trajet->getDateHeureDepart()->format('Y-m-d H:i:s'),
+            'dha' => $trajet->getDateHeureArrivee()->format('Y-m-d H:i:s'),
+            'pt' => $trajet->getPlacesTotales(),
+            'pd' => $trajet->getPlacesDisponibles(),
         ]);
 
         return (int)$this->db->lastInsertId();
@@ -114,11 +114,11 @@ class TrajetRepository
         return $stmt->execute([
             'dep' => $trajet->getIdAgenceDepart(),
             'arr' => $trajet->getIdAgenceArrivee(),
-            'dhd'  => $trajet->getDateHeureDepart()->format('Y-m-d H:i:s'),
-            'dha'  => $trajet->getDateHeureArrivee()->format('Y-m-d H:i:s'),
-            'pt'  => $trajet->getPlacesTotales(),
-            'pd'  => $trajet->getPlacesDisponibles(),
-            'id'  => $trajet->getId(),
+            'dhd' => $trajet->getDateHeureDepart()->format('Y-m-d H:i:s'),
+            'dha' => $trajet->getDateHeureArrivee()->format('Y-m-d H:i:s'),
+            'pt' => $trajet->getPlacesTotales(),
+            'pd' => $trajet->getPlacesDisponibles(),
+            'id' => $trajet->getId(),
         ]);
     }
 

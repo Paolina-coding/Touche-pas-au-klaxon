@@ -52,7 +52,7 @@ class AgenceRepository
         $stmt = $this->db->prepare($sql);
 
         $stmt->execute([
-            'ville'      => $agence->getVille()
+            'ville' => $agence->getVille()
         ]);
 
         return (int)$this->db->lastInsertId();
