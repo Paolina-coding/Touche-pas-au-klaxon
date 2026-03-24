@@ -41,6 +41,17 @@ class AgenceRepository
         return $row ? $this->mapToAgence($row) : null; //retourne soit l'objet soit null
     }
 
+    public function findByVille(string $ville): ?Agence
+    {
+        $sql = "SELECT * FROM agence WHERE ville = :ville";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['ville' => $ville]); //requête avec paramètre dynamique donc protection, pas de query
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $row ? $this->mapToAgence($row) : null; //retourne soit l'objet soit null
+    }
+
     //Crée une nouvelle agence
     public function create(Agence $agence): int
     {
