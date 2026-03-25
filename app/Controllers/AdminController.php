@@ -29,12 +29,14 @@ class AdminController
     /** Tableau de bord admin */
     public function dashboard(): void
     {
+        $authService = $this->authService;
         require __DIR__ . '/../../templates/admin/dashboard.php';
     }
 
     /** Liste des utilisateurs */
     public function listUsers(): void
     {
+        $authService = $this->authService;
         $users = $this->userRepo->findAll();
         require __DIR__ . '/../../templates/admin/users.php';
     }
@@ -42,6 +44,7 @@ class AdminController
     /** Liste des agences */
     public function listAgences(): void
     {
+        $authService = $this->authService;
         $agences = $this->agenceRepo->findAll();
         require __DIR__ . '/../../templates/admin/agences.php';
     }
@@ -49,6 +52,7 @@ class AdminController
     /** Liste des trajets */
     public function listTrajets(): void
     {
+        $authService = $this->authService;
         $trajets = $this->trajetRepo->findAll();
         require __DIR__ . '/../../templates/admin/trajets.php';
     }

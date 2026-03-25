@@ -1,7 +1,10 @@
 <?php
-$isLogged = $authService->isLogged();
-$isAdmin  = $authService->isAdmin();
-$user = $authService->getUser();
+
+// Si authService est passé par le contrôleur on l'appelle, sinon on met une valeur par défaut
+$authService = $authService ?? null;
+$isLogged = $authService?->isLogged() ?? false;
+$isAdmin  = $authService?->isAdmin() ?? false;
+$user     = $authService?->getUser() ?? null;
 ?>
 
 <!DOCTYPE html>
