@@ -27,7 +27,7 @@ $user = $authService->getUser();
     <div class="container-fluid">
 
         <!-- Logo -->
-        <a class="navbar-brand fw-bold" href="/">
+        <a class="navbar-brand fw-bold" href="/touche_pas_au_klaxon/public/">
             Touche pas au klaxon
         </a>
 
