@@ -2,9 +2,20 @@
 
 namespace App\Controllers;
 
+use App\Repositories\UserRepository;
+use App\Services\AuthService;
 
 class AuthController
 {
+    private UserRepository $userRepo;
+    private AuthService $authService;
+
+    public function __construct(UserRepository $userRepo, AuthService $authService)
+    {
+        $this->userRepo = $userRepo;
+        $this->authService = $authService;
+    }
+
     //formulaire de connexion
     public function loginForm(): void
     {
@@ -28,7 +39,7 @@ class AuthController
         // Vérification utilisateur
         $user = $this->userRepo->findByEmail($email);
 
-        if (!$user || !password_verify($password, $user->getPassword())) {
+        if (!$user || !password_verify($password, $user->getMotDePasse())) {
             $errors[] = "Identifiants incorrects.";
             require __DIR__ . '/../../templates/auth/login.php';
             return;
@@ -39,9 +50,9 @@ class AuthController
 
         // Redirection selon le rôle
         if ($user->getRole() === 'admin') {
-            header('Location: /admin');
+            header('Location: /touche_pas_au_klaxon/public/admin');
         } else {
-            header('Location: /');
+            header('Location: /touche_pas_au_klaxon/public/');
         }
 
         exit;
@@ -51,7 +62,7 @@ class AuthController
     public function logout(): void
     {
         session_destroy();
-        header('Location: /login');
+        header('Location: /touche_pas_au_klaxon/public/login');
         exit;
     }
 }
