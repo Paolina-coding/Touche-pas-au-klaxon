@@ -19,6 +19,6 @@ class HomeController
     public function index(): void
     {
         $trajets = $this->trajetRepo->findAllAvailable();
-        require __DIR__ . '/../templates/home.php';
+        require __DIR__ . '/../../templates/home.php';
     }
 }

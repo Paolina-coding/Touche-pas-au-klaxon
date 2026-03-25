@@ -8,7 +8,7 @@ class AuthController
     //formulaire de connexion
     public function loginForm(): void
     {
-        require __DIR__ . '/../templates/auth/login.php';
+        require __DIR__ . '/../../templates/auth/login.php';
     }
 
     // traitement du formulaire de connexion
@@ -21,7 +21,7 @@ class AuthController
 
         if ($email === '' || $password === '') {
             $errors[] = "Email et mot de passe obligatoires.";
-            require __DIR__ . '/../templates/auth/login.php';
+            require __DIR__ . '/../../templates/auth/login.php';
             return;
         }
 
@@ -30,7 +30,7 @@ class AuthController
 
         if (!$user || !password_verify($password, $user->getPassword())) {
             $errors[] = "Identifiants incorrects.";
-            require __DIR__ . '/../templates/auth/login.php';
+            require __DIR__ . '/../../templates/auth/login.php';
             return;
         }
 
