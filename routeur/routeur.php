@@ -1,30 +1,89 @@
 <?php
 
-// récupérer l'URL
-$uri = $_SERVER['REQUEST_URI'];
-//nettoyer (enlever le chemin du projet + public) et découper l'url 
-$uri = preg_replace('#^/touche_pas_au_klaxon/public/#', '', $uri);
-$uri = trim($uri, '/');
-$segments = explode('/', $uri);
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+// Nettoyer le chemin du projet
+$basePath = '/touche_pas_au_klaxon/public';
+$uri = preg_replace('#^' . $basePath . '#', '', $uri);
 
-// récupérer le controller, la méthode et les paramètres de l'URL 
-$controller = $segments[0] ?? 'home';
-$method = $segments[1] ?? 'index';
-$params = array_slice($segments, 2);
+switch (true) {
 
+    case $uri === '/':
+        $homeController->index();
+        break;
 
-//construire le nom complet du controller et vérifier que le controlleur existe bien 
-$controllerClass = "App\\Controllers\\" . ucfirst($controller) . 'Controller';
-if (!class_exists($controllerClass)) {
-    echo "404 - Controller introuvable";
-    exit;
-}
+    case $uri === '/login':
+        $_SERVER['REQUEST_METHOD'] === 'POST'
+            ? $authController->login()
+            : $authController->loginForm();
+        break;
 
-//instancier et appeler la méthode après avoir vérifié qu'elle existe
-$instance = new $controllerClass();
-if (!method_exists($instance, $method)) {
-    echo "404 - Méthode introuvable";
-    exit;
-} else {
-    call_user_func_array([$instance, $method], $params);
+    case $uri === '/logout':
+        $authController->logout();
+        break;
+
+    case $uri === '/trajets':
+        $trajetController->index();
+        break;
+
+    case $uri === '/trajets/create':
+        if (!$authService->isLogged()) { header('Location: /login'); exit; }
+        $_SERVER['REQUEST_METHOD'] === 'POST'
+            ? $trajetController->store()
+            : $trajetController->createForm();
+        break;
+
+    case preg_match('#^/trajets/edit/(\d+)$#', $uri, $m):
+        if (!$authService->isLogged()) { header('Location: /login'); exit; }
+        $_SERVER['REQUEST_METHOD'] === 'POST'
+            ? $trajetController->update($m[1])
+            : $trajetController->editForm($m[1]);
+        break;
+
+    case preg_match('#^/trajets/delete/(\d+)$#', $uri, $m):
+        if (!$authService->isLogged()) { header('Location: /login'); exit; }
+        $trajetController->delete($m[1]);
+        break;
+
+    case $uri === '/admin':
+        if (!$authService->isAdmin()) { header('Location: /'); exit; }
+        $adminController->dashboard();
+        break;
+
+    case $uri === '/admin/users':
+        if (!$authService->isAdmin()) { header('Location: /'); exit; }
+        $adminController->listUsers();
+        break;
+
+    case $uri === '/admin/agences':
+        if (!$authService->isAdmin()) { header('Location: /'); exit; }
+        $adminController->listAgences();
+        break;
+
+    case $uri === '/admin/agences/create':
+        if (!$authService->isAdmin()) { header('Location: /'); exit; }
+        $_SERVER['REQUEST_METHOD'] === 'POST'
+            ? $agenceController->store()
+            : $agenceController->createForm();
+        break;
+
+    case preg_match('#^/admin/agences/edit/(\d+)$#', $uri, $m):
+        if (!$authService->isAdmin()) { header('Location: /'); exit; }
+        $_SERVER['REQUEST_METHOD'] === 'POST'
+            ? $agenceController->update($m[1])
+            : $agenceController->editForm($m[1]);
+        break;
+
+    case preg_match('#^/admin/agences/delete/(\d+)$#', $uri, $m):
+        if (!$authService->isAdmin()) { header('Location: /'); exit; }
+        $agenceController->delete($m[1]);
+        break;
+
+    case $uri === '/admin/trajets':
+        if (!$authService->isAdmin()) { header('Location: /'); exit; }
+        $adminController->listTrajets();
+        break;
+
+    default:
+        http_response_code(404);
+        echo "Page non trouvée";
 }
