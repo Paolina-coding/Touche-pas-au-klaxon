@@ -18,13 +18,13 @@ class AgenceController
     public function index(): void
     {
         $agences = $this->agenceRepo->findAll();
-        require __DIR__ . '/../templates/admin/agences.php';
+        require __DIR__ . '/../../templates/admin/agences.php';
     }
 
     // afficher le formulaire de création (requête GET)
     public function create(): void
     {
-        require __DIR__ . '/../templates/agence/create.php';
+        require __DIR__ . '/../../templates/agence/create.php';
     }
 
     // traitement du formulaire de création (requête POST)
@@ -35,7 +35,7 @@ class AgenceController
         //si la ville est vide, renvoi du formulaire avec un message d'erreur
         if ($ville === '') {
             $error = "La ville est obligatoire.";
-            require __DIR__ . '/../templates/agence/create.php';
+            require __DIR__ . '/../../templates/agence/create.php';
             return;
         }
 
@@ -62,7 +62,7 @@ class AgenceController
             return;
         }
 
-        require __DIR__ . '/../templates/agence/edit.php';
+        require __DIR__ . '/../../templates/agence/edit.php';
     }
 
     // traitement du formulaire pour modifier une agence
@@ -80,7 +80,7 @@ class AgenceController
 
         if ($ville === '') {
             $error = "La ville est obligatoire.";
-            require __DIR__ . '/../templates/agence/edit.php';
+            require __DIR__ . '/../../templates/agence/edit.php';
             return;
         }
 

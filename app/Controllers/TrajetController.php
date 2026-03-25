@@ -18,7 +18,7 @@ class TrajetController
     public function index(): void
     {
         $trajets = $this->trajetRepo->findAll();
-        require __DIR__ . '/../templates/admin/trajets.php';
+        require __DIR__ . '/../../templates/admin/trajets.php';
     }
 
     //afficher les détails d'un trajet
@@ -32,13 +32,13 @@ class TrajetController
             return;
         }
 
-        require __DIR__ . '/../templates/trajet/infos.php';
+        require __DIR__ . '/../../templates/trajet/infos.php';
     }
 
     // afficher le formulaire de création (requête GET)
     public function create(): void
     {
-        require __DIR__ . '/../templates/trajet/create.php';
+        require __DIR__ . '/../../templates/trajet/create.php';
     }
 
     // traitement du formulaire de création (requête POST)
@@ -90,7 +90,7 @@ class TrajetController
 
         // S'il y a des erreurs on affiche à nouveau le formulaire
         if (!empty($errors)) {
-            require __DIR__ . '/../templates/trajet/create.php';
+            require __DIR__ . '/../../templates/trajet/create.php';
             return;
         }
 
@@ -123,7 +123,7 @@ class TrajetController
             return;
         }
 
-        require __DIR__ . '/../templates/trajet/edit.php';
+        require __DIR__ . '/../../templates/trajet/edit.php';
     }
 
     // traitement du formulaire pour modifier une trajet
@@ -141,7 +141,7 @@ class TrajetController
 
         if ($ville === '') {
             $error = "La ville est obligatoire.";
-            require __DIR__ . '/../templates/trajet/edit.php';
+            require __DIR__ . '/../../templates/trajet/edit.php';
             return;
         }
 

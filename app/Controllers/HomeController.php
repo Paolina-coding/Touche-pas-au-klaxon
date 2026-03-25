@@ -3,13 +3,22 @@
 namespace App\Controllers;
 
 use App\Repositories\TrajetRepository;
-use App\Models\Trajet;
+use App\Services\AuthService;
 
-class TrajetController
+class HomeController
 {
+    private TrajetRepository $trajetRepo;
+    private AuthService $authService;
+
+    public function __construct(TrajetRepository $trajetRepo, AuthService $authService)
+    {
+        $this->trajetRepo = $trajetRepo;
+        $this->authService = $authService;
+    }
+
     public function index(): void
-        {
-            $trajets = $this->trajetRepo->findAllAvailable();
-            require __DIR__ . '/../templates/home.php';
-        }
+    {
+        $trajets = $this->trajetRepo->findAllAvailable();
+        require __DIR__ . '/../../templates/home.php';
+    }
 }
