@@ -18,6 +18,7 @@ class HomeController
 
     public function index(): void
     {
+        $authService = $this->authService;
         $trajets = $this->trajetRepo->findAllAvailable();
         require __DIR__ . '/../../templates/home.php';
     }
