@@ -7,6 +7,7 @@ use App\Repositories\AgenceRepository;
 use App\Services\AuthService;
 use App\Models\Trajet;
 use DateTime;
+use Exception;
 
 class TrajetController
 {
