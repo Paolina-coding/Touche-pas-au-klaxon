@@ -63,14 +63,14 @@ switch (true) {
         if (!$authService->isAdmin()) { header('Location: /'); exit; }
         $_SERVER['REQUEST_METHOD'] === 'POST'
             ? $agenceController->store()
-            : $agenceController->createForm();
+            : $agenceController->create();
         break;
 
     case preg_match('#^/admin/agences/edit/(\d+)$#', $uri, $m):
         if (!$authService->isAdmin()) { header('Location: /'); exit; }
         $_SERVER['REQUEST_METHOD'] === 'POST'
             ? $agenceController->update($m[1])
-            : $agenceController->editForm($m[1]);
+            : $agenceController->edit($m[1]);
         break;
 
     case preg_match('#^/admin/agences/delete/(\d+)$#', $uri, $m):
