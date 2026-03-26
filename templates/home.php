@@ -18,7 +18,7 @@
     <h2 class="mb-4">Trajets disponibles</h2>
 
     <?php if (empty($trajets)): ?>
-        <div class="alert alert-warning text-center">
+        <div class="alert alert-info text-center">
             Aucun trajet disponible pour le moment.
         </div>
     <?php else: ?>
@@ -73,7 +73,7 @@
 
                                     <!-- Modifier -->
                                     <a href="/touche_pas_au_klaxon/public/trajets/edit/<?= $trajet['id_trajet'] ?>"
-                                    class="text-warning me-2">
+                                    class="text-primary me-2">
                                         <i class="bi bi-pencil-square fs-5"></i>
                                     </a>
 
