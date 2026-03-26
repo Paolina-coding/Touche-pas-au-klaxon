@@ -21,7 +21,7 @@ $user     = $authService?->getUser() ?? null;
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/touche_pas_au_klaxon/public/style.css">
 </head>
 
 <body>

@@ -1,3 +1,5 @@
+</main>
+
 <footer class="text-center py-3 mt-5 bg-light border-top">
     <div class="container">
         <strong>Touche pas au klaxon</strong> — © <?= date('Y') ?>
