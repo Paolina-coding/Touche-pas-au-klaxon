@@ -3,8 +3,8 @@ USE touche_pas_au_klaxon;
 
 -- comme le fichier est disponible sur github les mots de passe sont changés
 INSERT INTO utilisateur (nom, prenom, email, telephone, mot_de_passe, role) VALUES
-    ('Martin', 'Alexandre', 'alexandre.martin@email.fr', '0612345678', '$2y$10$hash', 'user'),
-    ('Dubois', 'Sophie', 'sophie.dubois@email.fr', '0698765432', '$2y$10$hash', 'user'),
+    ('Martin', 'Alexandre', 'alexandre.martin@email.fr', '0612345678', '$2y$10$t/UDkFnUW1C2c2xUCA.wbeDuaP4whU4p5FBGUlaqY1X9X0RGWKrFK', 'user'),
+    ('Dubois', 'Sophie', 'sophie.dubois@email.fr', '0698765432', '$2y$10$VFbyoXvpgHDbwZmngg44Eetd1xtRi5y8UkFdN08V8Y0RhKjGvmBnm', 'admin'),
     ('Bernard', 'Julien', 'julien.bernard@email.fr', '0622446688', '$2y$10$hash', 'user'),
     ('Moreau', 'Camille', 'camille.moreau@email.fr', '0611223344', '$2y$10$hash', 'user'),
     ('Lefèvre', 'Lucie', 'lucie.lefevre@email.fr', '0777889900', '$2y$10$hash', 'user'),

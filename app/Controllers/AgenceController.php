@@ -24,7 +24,7 @@ class AgenceController
     // afficher le formulaire de création (requête GET)
     public function create(): void
     {
-        require __DIR__ . '/../../templates/agence/create.php';
+        require __DIR__ . '/../../templates/admin/agences/create.php';
     }
 
     // traitement du formulaire de création (requête POST)
@@ -47,7 +47,8 @@ class AgenceController
         $this->agenceRepo->create($agence);
 
         //redirection une fois l'agence créée
-        header('Location: /admin/agences');
+        $_SESSION['flash'] = "L'agence a bien été créée.";
+        header('Location: /touche_pas_au_klaxon/public/admin/agences');
         exit;
     }
 
@@ -62,7 +63,7 @@ class AgenceController
             return;
         }
 
-        require __DIR__ . '/../../templates/agence/edit.php';
+        require __DIR__ . '/../../templates/admin/agences/edit.php';
     }
 
     // traitement du formulaire pour modifier une agence
@@ -80,14 +81,15 @@ class AgenceController
 
         if ($ville === '') {
             $error = "La ville est obligatoire.";
-            require __DIR__ . '/../../templates/agence/edit.php';
+            require __DIR__ . '/../../templates/admin/agences/edit.php';
             return;
         }
 
         $agence->setVille($ville);
         $this->agenceRepo->update($agence);
 
-        header('Location: /admin/agences');
+        $_SESSION['flash'] = "L'agence a bien été modifiée.";
+        header('Location: /touche_pas_au_klaxon/public/admin/agences');
         exit;
     }
 
@@ -104,7 +106,8 @@ class AgenceController
     
         $this->agenceRepo->delete($id);
 
-        header('Location: /admin/agences');
+        $_SESSION['flash'] = "L'agence a bien été supprimée.";
+        header('Location: /touche_pas_au_klaxon/public/admin/agences');
         exit;
     }
 }

@@ -29,14 +29,14 @@ switch (true) {
         if (!$authService->isLogged()) { header('Location: /login'); exit; }
         $_SERVER['REQUEST_METHOD'] === 'POST'
             ? $trajetController->store()
-            : $trajetController->createForm();
+            : $trajetController->create();
         break;
 
     case preg_match('#^/trajets/edit/(\d+)$#', $uri, $m):
         if (!$authService->isLogged()) { header('Location: /login'); exit; }
         $_SERVER['REQUEST_METHOD'] === 'POST'
             ? $trajetController->update($m[1])
-            : $trajetController->editForm($m[1]);
+            : $trajetController->edit($m[1]);
         break;
 
     case preg_match('#^/trajets/delete/(\d+)$#', $uri, $m):
@@ -63,14 +63,14 @@ switch (true) {
         if (!$authService->isAdmin()) { header('Location: /'); exit; }
         $_SERVER['REQUEST_METHOD'] === 'POST'
             ? $agenceController->store()
-            : $agenceController->createForm();
+            : $agenceController->create();
         break;
 
     case preg_match('#^/admin/agences/edit/(\d+)$#', $uri, $m):
         if (!$authService->isAdmin()) { header('Location: /'); exit; }
         $_SERVER['REQUEST_METHOD'] === 'POST'
             ? $agenceController->update($m[1])
-            : $agenceController->editForm($m[1]);
+            : $agenceController->edit($m[1]);
         break;
 
     case preg_match('#^/admin/agences/delete/(\d+)$#', $uri, $m):
@@ -81,6 +81,11 @@ switch (true) {
     case $uri === '/admin/trajets':
         if (!$authService->isAdmin()) { header('Location: /'); exit; }
         $adminController->listTrajets();
+        break;
+
+    case preg_match('#^/admin/trajets/delete/(\d+)$#', $uri, $m):
+        if (!$authService->isAdmin()) { header('Location: /'); exit; }
+        $trajetController->delete((int)$m[1]);
         break;
 
     default:
