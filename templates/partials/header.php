@@ -70,7 +70,7 @@ $user     = $authService?->getUser() ?? null;
 
                     <!-- Utilisateur connecté -->
                     <li class="nav-item">
-                        <a class="btn btn-outline-light ms-3" href="/trajets/create">
+                        <a class="btn btn-outline-light ms-3" href="/touche_pas_au_klaxon/public/trajets/create">
                             <i class="bi bi-plus-circle me-1"></i> Créer un trajet
                         </a>
                     </li>

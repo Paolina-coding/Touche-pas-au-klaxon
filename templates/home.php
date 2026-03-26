@@ -8,6 +8,13 @@
         </div>
     <?php endif; ?>
 
+    <?php if (!empty($_SESSION['flash'])): ?>
+        <div class="alert alert-info">
+            <?= $_SESSION['flash'] ?>
+        </div>
+        <?php unset($_SESSION['flash']); ?>
+    <?php endif; ?>
+
     <h2 class="mb-4">Trajets disponibles</h2>
 
     <?php if (empty($trajets)): ?>
@@ -65,13 +72,13 @@
                                 <?php if ($trajet['id_createur'] == $authService->getUser()->getId()): ?>
 
                                     <!-- Modifier -->
-                                    <a href="/touche_pas_au_klaxon/public/trajets/edit?id=<?= $trajet['id_trajet'] ?>"
+                                    <a href="/touche_pas_au_klaxon/public/trajets/edit/<?= $trajet['id_trajet'] ?>"
                                     class="text-warning me-2">
                                         <i class="bi bi-pencil-square fs-5"></i>
                                     </a>
 
                                     <!-- Supprimer -->
-                                    <a href="/touche_pas_au_klaxon/public/trajets/delete?id=<?= $trajet['id_trajet'] ?>"
+                                    <a href="/touche_pas_au_klaxon/public/trajets/delete/<?= $trajet['id_trajet'] ?>" 
                                     class="text-danger"
                                     onclick="return confirm('Supprimer ce trajet ?');">
                                         <i class="bi bi-trash-fill fs-5"></i>

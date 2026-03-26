@@ -29,14 +29,14 @@ switch (true) {
         if (!$authService->isLogged()) { header('Location: /login'); exit; }
         $_SERVER['REQUEST_METHOD'] === 'POST'
             ? $trajetController->store()
-            : $trajetController->createForm();
+            : $trajetController->create();
         break;
 
     case preg_match('#^/trajets/edit/(\d+)$#', $uri, $m):
         if (!$authService->isLogged()) { header('Location: /login'); exit; }
         $_SERVER['REQUEST_METHOD'] === 'POST'
             ? $trajetController->update($m[1])
-            : $trajetController->editForm($m[1]);
+            : $trajetController->edit($m[1]);
         break;
 
     case preg_match('#^/trajets/delete/(\d+)$#', $uri, $m):
