@@ -16,6 +16,31 @@ class TrajetRepository
         $this->db = $db;
     }
 
+    //retourne la liste de tous les trajets
+    public function findAll(): array
+    {
+        $sql = "
+            SELECT 
+                t.*,
+
+                a1.ville AS depart_nom,
+                a2.ville AS arrivee_nom,
+
+                u.prenom AS createur_prenom,
+                u.nom AS createur_nom
+
+            FROM trajet t
+            JOIN agence a1 ON t.id_agence_depart = a1.id_agence
+            JOIN agence a2 ON t.id_agence_arrivee = a2.id_agence
+            JOIN utilisateur u ON t.id_createur = u.id_utilisateur
+
+            ORDER BY t.date_heure_depart ASC
+        ";
+
+        $stmt = $this->db->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     //retourne les trajets disponibles (dans le futur et avec assez de places), triés par date croissante
     //avec les agences de départ et d'arrivée ainsi que les informations de créateur
     public function findAllAvailable(): array

@@ -107,7 +107,7 @@ class TrajetController
         $this->trajetRepo->create($trajet);
 
         // redirection 
-        header('Location: /admin/trajets');
+        header('Location: /touche_pas_au_klaxon/public/admin/trajets');
         exit;
     }
     
@@ -148,11 +148,11 @@ class TrajetController
         $trajet->setVille($ville);
         $this->trajetRepo->update($trajet);
 
-        header('Location: /admin/trajets');
+        header('Location: /touche_pas_au_klaxon/public/admin/trajets');
         exit;
     }
 
-    // supprimer une trajet
+    // supprimer un trajet
     public function delete(int $id): void
     {   
         $trajet = $this->trajetRepo->findById($id);
@@ -165,7 +165,8 @@ class TrajetController
     
         $this->trajetRepo->delete($id);
 
-        header('Location: /admin/trajets');
+        $_SESSION['flash'] = "Le trajet a bien été supprimé.";
+        header('Location: /touche_pas_au_klaxon/public/admin/trajets');
         exit;
     }
 }

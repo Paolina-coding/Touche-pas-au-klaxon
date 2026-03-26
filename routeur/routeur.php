@@ -83,6 +83,11 @@ switch (true) {
         $adminController->listTrajets();
         break;
 
+    case preg_match('#^/admin/trajets/delete/(\d+)$#', $uri, $m):
+        if (!$authService->isAdmin()) { header('Location: /'); exit; }
+        $trajetController->delete((int)$m[1]);
+        break;
+
     default:
         http_response_code(404);
         echo "Page non trouvée";
