@@ -102,7 +102,7 @@
         </div>
 
         <div class="d-flex justify-content-between mt-4">
-            <button type="submit" class="btn btn-warning">
+            <button type="submit" class="btn btn-primary">
                 <i class="bi bi-pencil-square"></i> Modifier le trajet
             </button>
         </div>

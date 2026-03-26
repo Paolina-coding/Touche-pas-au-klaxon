@@ -1,3 +1,28 @@
+:root {
+    --bs-body-bg: #f1f8fc;
+
+    --bs-primary: #0074c7;
+
+    --bs-secondary: #384050;
+
+    --bs-info: #00497c;
+
+    --bs-success: #82b864;
+
+    --bs-danger: #cd2c2e;
+
+}
+
+.btn-success {
+    background-color: var(--bs-success) !important;
+    border-color: var(--bs-success) !important;
+}
+
+.btn-success:hover {
+    background-color: #6fa452 !important;
+    border-color: #6fa452 !important;
+}
+
 html, body {
     height: 100%;
 }
