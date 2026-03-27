@@ -6,17 +6,45 @@ use App\Models\Trajet;
 use PDO;
 use DateTime;
 
+/**
+ * Repository responsable de l'accès aux données des trajets.
+ *
+ * Fournit des méthodes pour :
+ * - récupérer tous les trajets (avec infos agences + créateur)
+ * - récupérer les trajets disponibles (futurs + places restantes)
+ * - récupérer un trajet par son ID
+ * - récupérer les trajets créés par un utilisateur
+ * - créer, mettre à jour et supprimer un trajet
+ *
+ * Les méthodes mapToTrajet() transforment les lignes SQL en objets Trajet.
+ */
 class TrajetRepository
 {
+    /**
+     * Connexion PDO active.
+     *
+     * @var PDO
+     */
     private PDO $db;
 
-    //connexion PDO
+    /**
+     * Constructeur du repository.
+     *
+     * @param PDO $db Connexion PDO active
+     */
     public function __construct(PDO $db)
     {
         $this->db = $db;
     }
 
-    //retourne la liste de tous les trajets
+    /**
+     * Retourne la liste complète des trajets, avec :
+     * - agences de départ et d'arrivée
+     * - informations du créateur
+     *
+     *
+     * @return array Liste des trajets sous forme de tableau associatif
+     */
     public function findAll(): array
     {
         $sql = "
@@ -41,8 +69,11 @@ class TrajetRepository
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    //retourne les trajets disponibles (dans le futur et avec assez de places), triés par date croissante
-    //avec les agences de départ et d'arrivée ainsi que les informations de créateur
+    /**
+     * Retourne les trajets disponibles (date future, places disponibles > 0, avec infos agences et créateur)
+     *
+     * @return array Liste des trajets disponibles
+     */
     public function findAllAvailable(): array
     {
         $sql = "
@@ -72,7 +103,12 @@ class TrajetRepository
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    //retourne un trajet par son id
+    /**
+     * Retourne un trajet par son identifiant.
+     *
+     * @param int $id Identifiant du trajet
+     * @return Trajet|null Objet Trajet ou null si non trouvé
+     */
     public function findById(int $id): ?Trajet
     {
         $sql = "SELECT * FROM trajet WHERE id_trajet = :id";
@@ -84,7 +120,12 @@ class TrajetRepository
         return $row ? $this->mapToTrajet($row) : null; //retourne soit l'objet soit null
     }
 
-    //Retourne les trajets créés par un utilisateur.
+    /**
+     * Retourne les trajets créés par un utilisateur donné.
+     *
+     * @param int $userId Identifiant du créateur
+     * @return Trajet[] Liste d'objets Trajet
+     */
     public function findByUser(int $userId): array
     {
         $sql = "
@@ -102,7 +143,12 @@ class TrajetRepository
         return array_map([$this, 'mapToTrajet'], $rows);
     }
 
-    //Crée un nouveau trajet
+    /**
+     * Crée un nouveau trajet dans la base de données.
+     *
+     * @param Trajet $trajet Objet Trajet à insérer
+     * @return int ID du trajet nouvellement créé
+     */
     public function create(Trajet $trajet): int
     {
         $sql = "
@@ -134,7 +180,12 @@ class TrajetRepository
         return (int)$this->db->lastInsertId();
     }
 
-    //Met à jour un trajet existant
+    /**
+     * Met à jour un trajet existant.
+     *
+     * @param Trajet $trajet Objet Trajet contenant les nouvelles valeurs
+     * @return bool True si la mise à jour a réussi
+     */
     public function update(Trajet $trajet): bool
     {
         $sql = "
@@ -161,7 +212,12 @@ class TrajetRepository
         ]);
     }
 
-    //supprimer un trajet existant
+    /**
+     * Supprime un trajet selon son identifiant.
+     *
+     * @param int $id Identifiant du trajet
+     * @return bool True si la suppression a réussi
+     */
     public function delete(int $id): bool
     {
         $sql = "DELETE FROM trajet WHERE id_trajet = :id";
@@ -172,7 +228,12 @@ class TrajetRepository
 
 // méthode utilitaire
 
-    //transforme les lignes SQL en objet
+    /**
+     * Transforme une ligne SQL en objet Trajet.
+     *
+     * @param array $row Ligne SQL sous forme de tableau associatif
+     * @return Trajet Objet Trajet correspondant à la ligne
+     */
     private function mapToTrajet(array $row): Trajet
     {
         $trajet = new Trajet();

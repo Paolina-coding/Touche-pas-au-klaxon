@@ -5,29 +5,53 @@ namespace App\Controllers;
 use App\Repositories\AgenceRepository;
 use App\Models\Agence;
 
+/**
+ * Contrôleur responsable de la gestion des agences.
+ * Permet d'afficher la liste des agences, de créer une nouvelle agence, de modifier une agence existante, de supprimer une agence
+ */
 class AgenceController
 {
+    /**
+     * @var AgenceRepository Repository permettant d'interagir avec la table des agences
+     */
     private AgenceRepository $agenceRepo;
 
+    /**
+     * Constructeur du contrôleur.
+     *
+     * @param AgenceRepository $agenceRepo Repository des agences
+     */    
     public function __construct(AgenceRepository $agenceRepo)
     {
         $this->agenceRepo = $agenceRepo;
     }
 
-    // afficher la liste des agences
+    /**
+     * Affiche la liste de toutes les agences.
+     *
+     * @return void
+     */
     public function index(): void
     {
         $agences = $this->agenceRepo->findAll();
         require __DIR__ . '/../../templates/admin/agences.php';
     }
 
-    // afficher le formulaire de création (requête GET)
+    /**
+     * Affiche le formulaire de création d'une agence (requête GET).
+     *
+     * @return void
+     */
     public function create(): void
     {
         require __DIR__ . '/../../templates/admin/agences/create.php';
     }
 
-    // traitement du formulaire de création (requête POST)
+    /**
+     * Traite le formulaire de création d'une agence (requête POST).
+     *
+     * @return void
+     */
     public function store(): void
     {
         $ville = trim($_POST['ville'] ?? ''); //récupère la valeur du formulaire et enlève les potentiels espaces
@@ -39,7 +63,7 @@ class AgenceController
             return;
         }
 
-        //création de l'objet ville
+        //création de l'objet agence
         $agence = new Agence();
         $agence->setVille($ville);
 
@@ -52,7 +76,12 @@ class AgenceController
         exit;
     }
 
-    // Afficher le formulaire pour modifier une agence
+    /**
+     * Affiche le formulaire d'édition d'une agence existante.
+     *
+     * @param int $id Identifiant de l'agence à modifier
+     * @return void
+     */
     public function edit(int $id): void
     {
         $agence = $this->agenceRepo->findById($id);
@@ -66,7 +95,12 @@ class AgenceController
         require __DIR__ . '/../../templates/admin/agences/edit.php';
     }
 
-    // traitement du formulaire pour modifier une agence
+    /**
+     * Traite le formulaire de modification d'une agence.
+     *
+     * @param int $id Identifiant de l'agence à mettre à jour
+     * @return void
+     */
     public function update(int $id): void
     {
         $agence = $this->agenceRepo->findById($id);
@@ -93,7 +127,12 @@ class AgenceController
         exit;
     }
 
-    // supprimer une agence
+    /**
+     * Supprime une agence existante.
+     *
+     * @param int $id Identifiant de l'agence à supprimer
+     * @return void
+     */
     public function delete(int $id): void
     {   
         $agence = $this->agenceRepo->findById($id);
