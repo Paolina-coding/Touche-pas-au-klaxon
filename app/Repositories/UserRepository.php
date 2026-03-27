@@ -5,17 +5,40 @@ namespace App\Repositories;
 use App\Models\User;
 use PDO;
 
+/**
+ * Repository responsable de l'accès aux données des utilisateurs.
+ *
+ * Fournit des méthodes pour :
+ * - récupérer tous les utilisateurs
+ * - récupérer un utilisateur par son ID
+ * - récupérer un utilisateur par son email
+ *
+ * Les lignes SQL sont transformées en objets User via mapToUser().
+ */
 class UserRepository
 {
+    /**
+     * Instance PDO permettant d'interagir avec la base de données.
+     *
+     * @var PDO
+     */
     private PDO $db;
 
-    //connexion PDO
+    /**
+     * Constructeur du repository.
+     *
+     * @param PDO $db Connexion PDO active
+     */
     public function __construct(PDO $db)
     {
         $this->db = $db;
     }
 
-    //retourne la liste des users
+    /**
+     * Retourne la liste complète des utilisateurs.
+     *
+     * @return User[] Tableau d'objets User
+     */
     public function findAll(): array
     {
         $sql = "
@@ -29,7 +52,12 @@ class UserRepository
         return array_map([$this, 'mapToUser'], $rows); //retourne le tableau avec la méthode mapToUser appliquée à chaque ligne
     }
 
-    //retourne un user par son id
+    /**
+     * Retourne un utilisateur selon son identifiant.
+     *
+     * @param int $id Identifiant de l'utilisateur
+     * @return User|null L'utilisateur trouvé ou null si inexistant
+     */
     public function findById(int $id): ?User
     {
         $sql = "SELECT * FROM utilisateur WHERE id_utilisateur = :id";
@@ -41,7 +69,12 @@ class UserRepository
         return $row ? $this->mapToUser($row) : null; //retourne soit l'objet soit null
     }
 
-    //retourne un user par son email
+    /**
+     * Retourne un utilisateur selon son email.
+     *
+     * @param string $email Adresse email de l'utilisateur
+     * @return User|null L'utilisateur trouvé ou null si inexistant
+     */
     public function findByEmail(string $email): ?User
     {
         $sql = "SELECT * FROM utilisateur WHERE email = :email";
@@ -55,7 +88,12 @@ class UserRepository
 
 // méthode utilitaire
 
-    //transforme les lignes SQL en objet
+    /**
+     * Transforme une ligne SQL en objet User.
+     *
+     * @param array $row Ligne SQL sous forme de tableau associatif
+     * @return User Objet User correspondant à la ligne
+     */
     private function mapToUser(array $row): User
     {
         $user  = new User();

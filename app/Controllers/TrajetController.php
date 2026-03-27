@@ -9,12 +9,35 @@ use App\Models\Trajet;
 use DateTime;
 use Exception;
 
+/**
+ * Contrôleur responsable de la gestion des trajets.
+ *
+ * Permet d'afficher la liste des trajets, de consulter les détails d'un trajet, de créer un trajet, de modifier un trajet et de supprimer un trajet
+ */
 class TrajetController
 {
+    /**
+     * @var TrajetRepository Repository permettant d'interagir avec les trajets
+     */
     private TrajetRepository $trajetRepo;
+
+    /**
+     * @var AgenceRepository Repository permettant de récupérer les agences
+     */
     private AgenceRepository $agenceRepo;
+
+    /**
+     * @var AuthService Service d'authentification et gestion des sessions
+     */
     private AuthService $authService;
 
+    /**
+     * Constructeur du contrôleur des trajets.
+     *
+     * @param TrajetRepository  $trajetRepo   Repository des trajets
+     * @param AgenceRepository  $agenceRepo   Repository des agences
+     * @param AuthService       $authService  Service d'authentification
+     */
     public function __construct(
         TrajetRepository $trajetRepo,
         AgenceRepository $agenceRepo,
@@ -25,14 +48,24 @@ class TrajetController
         $this->authService = $authService;
     }
 
-    // afficher la liste des trajets
+
+    /**
+     * Affiche la liste de tous les trajets (vue admin).
+     *
+     * @return void
+     */
     public function index(): void
     {
         $trajets = $this->trajetRepo->findAll();
         require __DIR__ . '/../../templates/admin/trajets.php';
     }
 
-    //afficher les détails d'un trajet
+    /**
+     * Affiche les détails d'un trajet.
+     *
+     * @param int $id Identifiant du trajet
+     * @return void
+     */
     public function show($id): void
     {
         $trajet = $this->trajetRepo->findById($id);
@@ -46,7 +79,11 @@ class TrajetController
         require __DIR__ . '/../../templates/trajet/infos.php';
     }
 
-    // afficher le formulaire de création (requête GET)
+    /**
+     * Affiche le formulaire de création d'un trajet.
+     *
+     * @return void
+     */
     public function create(): void
     {
         $authService = $this->authService;
@@ -54,7 +91,14 @@ class TrajetController
         require __DIR__ . '/../../templates/trajets/create.php';
     }
 
-    // traitement du formulaire de création (requête POST)
+
+    /**
+     * Traite le formulaire de création d'un trajet.
+     * Valide les agences de départ et d'arrivée, les dates et le nombre de places
+     * Crée ensuite un objet Trajet et l'enregistre via le repository.
+     *
+     * @return void
+     */
     public function store(): void
     {
         // Récupération des données du formulaire
@@ -127,7 +171,13 @@ class TrajetController
     }
     
 
-    // Afficher le formulaire pour modifier une trajet
+
+    /**
+     * Affiche le formulaire de modification d'un trajet.
+     *
+     * @param int $id Identifiant du trajet
+     * @return void
+     */
     public function edit(int $id): void
     {
         $trajet = $this->trajetRepo->findById($id);
@@ -144,7 +194,13 @@ class TrajetController
         require __DIR__ . '/../../templates/trajets/edit.php';
     }
 
-    // traitement du formulaire pour modifier une trajet
+    /**
+     * Traite le formulaire de modification d'un trajet.
+     * Valide les agences de départ et d'arrivée, les dates et le nombre de places
+     * 
+     * @param int $id Identifiant du trajet à modifier
+     * @return void
+     */
     public function update(int $id): void
     {
         $trajet = $this->trajetRepo->findById($id);
@@ -232,7 +288,12 @@ class TrajetController
         exit;
     }
 
-    // supprimer un trajet
+    /**
+     * Supprime un trajet existant.
+     *
+     * @param int $id Identifiant du trajet à supprimer
+     * @return void
+     */
     public function delete(int $id): void
     {   
         $trajet = $this->trajetRepo->findById($id);

@@ -5,17 +5,43 @@ namespace App\Repositories;
 use App\Models\Agence;
 use PDO;
 
+/**
+ * Repository responsable de l'accès aux données des agences.
+ *
+ * Fournit des méthodes pour :
+ * - récupérer toutes les agences
+ * - récupérer une agence par son ID
+ * - récupérer une agence par son nom de ville
+ * - créer une agence
+ * - mettre à jour une agence
+ * - supprimer une agence
+ *
+ * Ce repository transforme les lignes SQL en objets Agence via mapToAgence().
+ */
 class AgenceRepository
 {
+    /**
+     * Instance PDO permettant d'interagir avec la base de données.
+     *
+     * @var PDO
+     */
     private PDO $db;
 
-    //connexion PDO
+    /**
+     * Constructeur du repository.
+     *
+     * @param PDO $db Connexion PDO active
+     */
     public function __construct(PDO $db)
     {
         $this->db = $db;
     }
 
-    //retourne la liste des agences
+    /**
+     * Retourne la liste complète des agences.
+     *
+     * @return Agence[] Tableau d'objets Agence
+     */
     public function findAll(): array
     {
         $sql = "
@@ -29,7 +55,12 @@ class AgenceRepository
         return array_map([$this, 'mapToAgence'], $rows); //retourne le tableau avec la méthode mapToAgence appliquée à chaque ligne
     }
 
-    //retourne une agence par son id
+    /**
+     * Retourne une agence selon son identifiant.
+     *
+     * @param int $id Identifiant de l'agence
+     * @return Agence|null L'agence trouvée ou null si inexistante
+     */
     public function findById(int $id): ?Agence
     {
         $sql = "SELECT * FROM agence WHERE id_agence = :id";
@@ -41,6 +72,12 @@ class AgenceRepository
         return $row ? $this->mapToAgence($row) : null; //retourne soit l'objet soit null
     }
 
+    /**
+     * Retourne une agence selon son nom de ville.
+     *
+     * @param string $ville Nom de la ville
+     * @return Agence|null L'agence trouvée ou null si inexistante
+     */
     public function findByVille(string $ville): ?Agence
     {
         $sql = "SELECT * FROM agence WHERE ville = :ville";
@@ -52,7 +89,12 @@ class AgenceRepository
         return $row ? $this->mapToAgence($row) : null; //retourne soit l'objet soit null
     }
 
-    //Crée une nouvelle agence
+    /**
+     * Crée une nouvelle agence dans la base de données.
+     *
+     * @param Agence $agence Objet Agence à insérer
+     * @return int ID de l'agence nouvellement créée
+     */
     public function create(Agence $agence): int
     {
         $sql = "
@@ -69,7 +111,12 @@ class AgenceRepository
         return (int)$this->db->lastInsertId();
     }
 
-    //Met à jour une agence existante
+    /**
+     * Met à jour une agence existante.
+     *
+     * @param Agence $agence Objet Agence contenant les nouvelles valeurs
+     * @return bool True si la mise à jour a réussi
+     */
     public function update(Agence $agence): bool
     {
         $sql = "
@@ -86,7 +133,12 @@ class AgenceRepository
         ]);
     }
 
-    //supprimer une agence existante
+    /**
+     * Supprime une agence selon son identifiant.
+     *
+     * @param int $id Identifiant de l'agence
+     * @return bool True si la suppression a réussi
+     */
     public function delete(int $id): bool
     {
         $sql = "DELETE FROM agence WHERE id_agence = :id";
@@ -97,7 +149,12 @@ class AgenceRepository
 
 // méthode utilitaire
 
-    //transforme les lignes SQL en objet
+    /**
+     * Transforme une ligne SQL en objet Agence.
+     *
+     * @param array $row Ligne SQL sous forme de tableau associatif
+     * @return Agence Objet Agence correspondant à la ligne
+     */
     private function mapToAgence(array $row): Agence
     {
         $agence = new Agence();
